@@ -1,6 +1,7 @@
 /* Created by Tony Barrera */
 
 // Global Variables
+int bgColor = 255;
 ArrayList<Vertex> vertices = new ArrayList<Vertex>();
 ArrayList<Edge> edges = new ArrayList<Edge>();
 int NodeDiameter = 20;
@@ -13,11 +14,11 @@ State state = State.ADDING;
 // Runs once when the program starts.
 void setup() {
   size(1200, 800);
-  background(255);
+  background(bgColor);
 }
 
 void draw() {
-  
+  draw(bgColor);
   for(Vertex v : vertices){
     circle(v.x, v.y, v.d);
   }
@@ -70,26 +71,25 @@ void displayState(State state2){
 }
 
 void mouseClicked(){
-  
-    switch(state){
-    case ADDING_EDGE:
-      if(MathHelper.vertexClicked(vertices, mouseX, mouseY)){
-        state = State.ADDING;
-        print("Edge MAde");
-      // else add a vertex only.
-      }else{
-        state = State.ADDING;
-      }
-      break;
+  println("Mouse Clicked");
+  switch(state){
     case ADDING:
       // If we are adding and we click on an existing vertex, we start making an edge.
       if(MathHelper.vertexClicked(vertices, mouseX, mouseY)){
         state = State.ADDING_EDGE;
-        print("Start making an edge");
+        println("Start making an edge");
       // else add a vertex only.
       }else{
         vertices.add(new Vertex(mouseX, mouseY, NodeDiameter));
       }
+      break;
+    case ADDING_EDGE:
+      if(MathHelper.vertexClicked(vertices, mouseX, mouseY)){
+        println(" Edge MAde");
+      // else add a vertex only.
+      }
+      state = State.ADDING;
+      println(" 1 " + state);
       break;
     case DELETING:
       break;
