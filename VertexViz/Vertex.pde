@@ -10,6 +10,12 @@ public class Vertex{
     this.d = d;
   }
   
+  public Vertex(Vertex v){
+    x = v.x;
+    y = v.y;
+    d = v.d;
+  }
+  
   public void updateSize(int newDiameter){
     this.d = newDiameter;
   }

@@ -15,23 +15,25 @@ State state = State.ADDING;
 void setup() {
   size(1200, 800);
   background(bgColor);
+  Global.state = State.ADDING;
 }
 
 void draw() {
-  draw(bgColor);
-  for(Vertex v : vertices){
-    circle(v.x, v.y, v.d);
-  }
+  background(bgColor);
   
   for(Edge e : edges){
     line(e.v1.x, e.v1.y, e.v2.x, e.v2.y);
   }
+  for(Vertex v : vertices){
+    circle(v.x, v.y, v.d);
+  }
   
-  switch(state){
+  
+  switch(Global.state){
     case ADDING_EDGE:
       Vertex v;
-      if(MathHelper.lastVertex != null){
-        v = MathHelper.lastVertex;
+      if(Global.vertex1 != null){
+        v = Global.vertex1;
         line(v.x, v.y, mouseX, mouseY);
       }
       break;
@@ -43,12 +45,12 @@ void draw() {
       break;
       
   }
-  displayState(state);
+  displayState();
 }
 
-void displayState(State state2){
+void displayState(){
   String stateStr = "";
-  switch(state2){
+  switch(Global.state){
     case ADDING_EDGE:
       stateStr = "Adding_Edge";
       break;
@@ -72,11 +74,11 @@ void displayState(State state2){
 
 void mouseClicked(){
   println("Mouse Clicked");
-  switch(state){
+  switch(Global.state){
     case ADDING:
       // If we are adding and we click on an existing vertex, we start making an edge.
-      if(MathHelper.vertexClicked(vertices, mouseX, mouseY)){
-        state = State.ADDING_EDGE;
+      if(VertexHelper.vertexClicked(vertices, mouseX, mouseY)){
+        Global.state = State.ADDING_EDGE;
         println("Start making an edge");
       // else add a vertex only.
       }else{
@@ -84,12 +86,14 @@ void mouseClicked(){
       }
       break;
     case ADDING_EDGE:
-      if(MathHelper.vertexClicked(vertices, mouseX, mouseY)){
+      if(VertexHelper.vertexEndClicked(vertices, mouseX, mouseY)){
         println(" Edge MAde");
-      // else add a vertex only.
+        Vertex temp1 = new Vertex(Global.vertex1);
+        Vertex temp2 = new Vertex(Global.vertex2);
+        edges.add(new Edge(temp1, temp2));
+        //Global.clear();
       }
-      state = State.ADDING;
-      println(" 1 " + state);
+      Global.state = State.ADDING;
       break;
     case DELETING:
       break;
