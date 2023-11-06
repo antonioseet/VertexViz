@@ -44,6 +44,8 @@ void draw() {
       break;
     case MOVING:
       break;
+    case SPREAD:
+      break;
       
   }
   displayState();
@@ -63,6 +65,9 @@ void displayState(){
       break;
     case MOVING:
       stateStr = "Moving";
+      break;
+    case SPREAD:
+      stateStr = "Vertex Spread";
       break;
   }
   
@@ -100,7 +105,21 @@ void mouseClicked(){
       break;
     case MOVING:
       break;
+    case SPREAD:
+      break;
       
+  }
+}
+
+void keyPressed() {
+  if (key == '1') {
+    Global.state = State.ADDING;
+  } else if (key == '2') {
+    Global.state = State.DELETING;
+  } else if (key == '3') {
+    Global.state = State.MOVING;
+  } else if (key == '4') {
+    Global.state = State.SPREAD;
   }
 }
 
