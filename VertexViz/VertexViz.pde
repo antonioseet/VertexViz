@@ -20,6 +20,7 @@ void setup() {
 
 void draw() {
   background(bgColor);
+  displayActions();
   
   for(Edge e : edges){
     line(e.v1.x, e.v1.y, e.v2.x, e.v2.y);
@@ -68,7 +69,7 @@ void displayState(){
   //size(40,40);
   fill(0);
   textSize(20);
-  text(stateStr, 100, 100);
+  text("Current State: " + stateStr, 150, 30);
   fill(255);
 }
 
@@ -102,3 +103,24 @@ void mouseClicked(){
       
   }
 }
+
+void displayActions(){
+  fill(0);
+  textSize(20);
+  
+  int x = 20;
+  int y = 30;
+  text("1: Add", x, y);
+  text("2: Delete", x, y+20);
+  text("3: Move", x, y+40);
+  text("4: Surprise!", x, y+60);
+  fill(255);
+}
+
+// IDEAS
+
+//  1: USE KEYS INSTEAD OF UI BUTTONS TO CHANGE STATES, line up Keys|actions vertically
+//  2: Have a key that will make every vertex move in a random direction and bounce around, keeping their edges.
+//      Maybe consider giving eaach vertex a random vector or angle at creation to move.
+//  3: Vertex Visual in chart
+//  4: Matrix visuals?
