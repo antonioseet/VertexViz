@@ -19,5 +19,10 @@ public class Vertex{
   public void updateSize(int newDiameter){
     this.d = newDiameter;
   }
+  
+  public void updatePosition(int x, int y){
+    this.x = x;
+    this.y = y;
+  }
     
 }

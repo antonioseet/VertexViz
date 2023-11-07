@@ -29,7 +29,7 @@ void draw() {
     circle(v.x, v.y, v.d);
   }
   
-  
+  // May be wise to change this to be above the for loops that draw.
   switch(Global.state){
     case ADDING_EDGE:
       Vertex v;
@@ -42,7 +42,11 @@ void draw() {
       break;
     case DELETING:
       break;
+    case MOVE:
+      break;
     case MOVING:
+      if(Global.movingVertex != null)
+        Global.movingVertex.updatePosition(mouseX,mouseY);
       break;
     case SPREAD:
       break;
@@ -62,6 +66,9 @@ void displayState(){
       break;
     case DELETING:
       stateStr = "Deleting";
+      break;
+    case MOVE:
+      stateStr = "ChoseForMove";
       break;
     case MOVING:
       stateStr = "Moving";
@@ -94,15 +101,16 @@ void mouseClicked(){
     case ADDING_EDGE:
       if(VertexHelper.vertexEndClicked(vertices, mouseX, mouseY)){
         println(" Edge MAde");
-        Vertex temp1 = new Vertex(Global.vertex1);
-        Vertex temp2 = new Vertex(Global.vertex2);
-        edges.add(new Edge(temp1, temp2));
-        //Global.clear();
+        edges.add(new Edge(Global.vertex1, Global.vertex2));
       }
       Global.state = State.ADDING;
       break;
     case DELETING:
+      if(VertexHelper.vertexClickedToDelete){
+      
+      }
       break;
+    case MOVE:
     case MOVING:
       break;
     case SPREAD:
@@ -111,13 +119,40 @@ void mouseClicked(){
   }
 }
 
+void mousePressed(){
+  println("mouse DOWN");
+  switch (Global.state){
+    case DELETING:
+    case MOVING:
+    case ADDING_EDGE:
+    case SPREAD:
+      break;
+    case ADDING:
+    case MOVE:
+      if(VertexHelper.vertexToMoveClicked(vertices, mouseX, mouseY)){
+        Global.state = State.MOVING;
+      }
+      break;
+  }
+}
+
+void mouseReleased(){
+
+  if(Global.state == State.MOVING){
+    println("Move successful..?");
+    Global.state = State.ADDING;
+    Global.clear();
+  }
+
+}
+
 void keyPressed() {
   if (key == '1') {
     Global.state = State.ADDING;
   } else if (key == '2') {
     Global.state = State.DELETING;
   } else if (key == '3') {
-    Global.state = State.MOVING;
+    Global.state = State.MOVE;
   } else if (key == '4') {
     Global.state = State.SPREAD;
   }
