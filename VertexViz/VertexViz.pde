@@ -106,8 +106,10 @@ void mouseClicked(){
       Global.state = State.ADDING;
       break;
     case DELETING:
-      if(VertexHelper.vertexClickedToDelete){
-      
+      if(VertexHelper.vertexToDeleteClicked(vertices, edges, mouseX, mouseY)){
+        println("VERTEX AND adjacent EDGES DELETED");
+      } else if(VertexHelper.removeEdgesNearMouse(edges, mouseX, mouseY)){
+        println("Only edges deleted");
       }
       break;
     case MOVE:
