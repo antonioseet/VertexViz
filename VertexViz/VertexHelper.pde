@@ -77,7 +77,7 @@ public static class VertexHelper{
       return !edgesToRemove.isEmpty();
   }
   
-  // Helper function to calculate the distance of a point from a line segment
+ // Helper function to calculate the distance of a point from a line segment
 public static float pointLineDistance(float x1, float y1, float x2, float y2, float px, float py) {
   float norm = dist(x1, y1, x2, y2);
   if (norm == 0) return dist(px, py, x1, y1);
