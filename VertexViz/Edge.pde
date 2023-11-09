@@ -8,4 +8,8 @@ public class Edge{
     this.v1 = v1;
     this.v2 = v2;
   }
+  
+  public boolean isLoop(){
+    return v1.x == v2.x && v1.y == v2.y;
+  }
 }

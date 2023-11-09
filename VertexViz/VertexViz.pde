@@ -23,7 +23,10 @@ void draw() {
   displayActions();
   
   for(Edge e : edges){
-    line(e.v1.x, e.v1.y, e.v2.x, e.v2.y);
+    if(e.isLoop()){
+    }else{
+      line(e.v1.x, e.v1.y, e.v2.x, e.v2.y);
+    }
   }
   for(Vertex v : vertices){
     circle(v.x, v.y, v.d);
