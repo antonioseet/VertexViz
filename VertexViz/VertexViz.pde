@@ -1,12 +1,18 @@
 /* Created by Tony Barrera */
 
 // Global Variables
-int bgColor = 255;
+int bgColor = 100;
+int vertexColor = 255;
 ArrayList<Vertex> vertices = new ArrayList<Vertex>();
 ArrayList<Edge> edges = new ArrayList<Edge>();
 int NodeDiameter = 20;
+boolean labelsOn = true;
 
-State state = State.ADDING;
+//State state = State.ADDING;
+
+// If these change remember to change them in setup.
+int windowX = 1200;
+int windowY = 800;
 
 // Last Vertex, try to ckeep track of the last clicked vertex to assign edges, might work. 
 //Vertex lastVertex; keep it in MAthHelpers
@@ -14,22 +20,46 @@ State state = State.ADDING;
 // Runs once when the program starts.
 void setup() {
   size(1200, 800);
+  frameRate(60);
   background(bgColor);
   Global.state = State.ADDING;
 }
 
 void draw() {
-  background(bgColor);
+  background(100);
   displayActions();
   
+  // go through all the edges and if we find a loop, instead of drawring a line, draw a circle representina loop.
   for(Edge e : edges){
     if(e.isLoop()){
+      fill(bgColor);
+      circle(e.v1.x, e.v1.y - (3*e.v1.d/4), e.v1.d * 2);
+      if(labelsOn){
+        // Edge label color
+        fill(0);
+        text("e"+edges.indexOf(e), (e.v2.x + e.v1.x) /2 - 5,(e.v2.y + e.v1.y) / 2 - 38);
+        fill(255);
+      }
     }else{
       line(e.v1.x, e.v1.y, e.v2.x, e.v2.y);
+      if(labelsOn){
+        fill(0);
+        text("e"+edges.indexOf(e), (e.v2.x + e.v1.x) /2 - 5,(e.v2.y + e.v1.y) / 2 - 10);
+        fill(255);
+      }
     }
+    
+    
   }
+  
   for(Vertex v : vertices){
+    fill(255);
     circle(v.x, v.y, v.d);
+    if(labelsOn){
+      fill(0);
+      text(vertices.indexOf(v), v.x - v.d/4, v.y + v.d/4);
+      fill(255);
+    }
   }
   
   // May be wise to change this to be above the for loops that draw.
@@ -56,6 +86,15 @@ void draw() {
       
   }
   displayState();
+  displayAdjacencyMatrix();
+  
+  if(Global.state == State.SPREAD){
+    print("spreading");
+    for(Vertex v: vertices){
+      v.move();
+    }
+  }
+  
 }
 
 void displayState(){
@@ -84,7 +123,12 @@ void displayState(){
   //size(40,40);
   fill(0);
   textSize(20);
-  text("Current State: " + stateStr, 150, 30);
+  text("Current State: " + stateStr, 20, 666);
+  
+  // Vertex and Edge Status
+  text("Total Vertices: " + vertices.size(), 700, 20);
+  text("Total Edges: " + edges.size(), 700, 40);
+  
   fill(255);
 }
 
@@ -159,7 +203,12 @@ void keyPressed() {
   } else if (key == '3') {
     Global.state = State.MOVE;
   } else if (key == '4') {
-    Global.state = State.SPREAD;
+    if(Global.state == State.SPREAD)
+      Global.state = State.ADDING;
+    else
+      Global.state = State.SPREAD;
+  } else if (key == '5') {
+     labelsOn = !labelsOn; 
   }
 }
 
@@ -168,13 +217,53 @@ void displayActions(){
   textSize(20);
   
   int x = 20;
-  int y = 30;
+  int y = 700;
   text("1: Add", x, y);
   text("2: Delete", x, y+20);
   text("3: Move", x, y+40);
   text("4: Surprise!", x, y+60);
+  text("5: Label Switch. Status --> " + (labelsOn ? "On" : "Off"), x, y + 80);
   fill(255);
 }
+
+// Function to display the adjacency matrix
+void displayAdjacencyMatrix() {
+  // Create a 2D array to represent the adjacency matrix
+  int[][] matrix = new int[vertices.size()][vertices.size()];
+  
+  // Initialize the adjacency matrix with 0's
+  for (int i = 0; i < vertices.size(); i++) {
+    for (int j = 0; j < vertices.size(); j++) {
+      matrix[i][j] = 0;
+    }
+  }
+
+  // Populate the adjacency matrix based on the edges
+  for (Edge e : edges) {
+    int v1Index = vertices.indexOf(e.v1);
+    int v2Index = vertices.indexOf(e.v2);
+    
+    // Assuming an undirected graph without loops
+    if (v1Index != -1 && v2Index != -1) {
+      matrix[v1Index][v2Index] = 1;
+      matrix[v2Index][v1Index] = 1; // Because the graph is undirected
+    }
+  }
+
+  // Display the adjacency matrix
+  textSize(15);
+  fill(0);
+  text("Adjacency Matrix:", 10, 15);
+  for (int i = 0; i < matrix.length; i++) {
+    for (int j = 0; j < matrix[i].length; j++) {
+      // Calculate the position for each cell's text
+      int x = 10 + j * 20;
+      int y = 30 + i * 20;
+      text(matrix[i][j], x, y);
+    }
+  }
+}
+
 
 // IDEAS
 
