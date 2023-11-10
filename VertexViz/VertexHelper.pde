@@ -46,7 +46,6 @@ public static class VertexHelper{
         }
       }
       
-      
       vertices.remove(deleteVertex);
       
       // If we find an vertex was clicked, we can try to remove every edge associated with that vertex.
@@ -71,13 +70,12 @@ public static class VertexHelper{
         for(Edge e : edgesToRemove){
           edges.remove(e);
         }
-        
       }
-      
       return !edgesToRemove.isEmpty();
   }
     
-   // Helper function to calculate the distance of a point from a line segment
+  // Helper function to calculate the distance of a point from a line segment
+  // threshhold to how close we can get
   public static float pointLineDistance(float x1, float y1, float x2, float y2, float px, float py) {
     float norm = dist(x1, y1, x2, y2);
     if (norm == 0) return dist(px, py, x1, y1);

@@ -243,7 +243,7 @@ void displayAdjacencyMatrix() {
     int v1Index = vertices.indexOf(e.v1);
     int v2Index = vertices.indexOf(e.v2);
     
-    // Assuming an undirected graph without loops
+    // Undirected graph without loops
     if (v1Index != -1 && v2Index != -1) {
       matrix[v1Index][v2Index] = 1;
       matrix[v2Index][v1Index] = 1; // Because the graph is undirected
