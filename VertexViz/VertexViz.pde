@@ -89,7 +89,6 @@ void draw() {
   displayAdjacencyMatrix();
   
   if(Global.state == State.SPREAD){
-    print("spreading");
     for(Vertex v: vertices){
       v.move();
     }
@@ -209,6 +208,9 @@ void keyPressed() {
       Global.state = State.SPREAD;
   } else if (key == '5') {
      labelsOn = !labelsOn; 
+  }else if( key == ' '){
+    vertices.clear();
+    edges.clear();
   }
 }
 
