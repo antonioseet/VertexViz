@@ -122,7 +122,7 @@ void displayState(){
   //size(40,40);
   fill(0);
   textSize(20);
-  text("Current State: " + stateStr, 20, 666);
+  text("Current State: " + stateStr, 20, 620);
   
   // Vertex and Edge Status
   text("Total Vertices: " + vertices.size(), 700, 20);
@@ -208,6 +208,10 @@ void keyPressed() {
       Global.state = State.SPREAD;
   } else if (key == '5') {
      labelsOn = !labelsOn; 
+  } else if(key == '6'){
+    addRandomVertices();
+  } else if(key == '7'){
+    resetGraph();
   }else if( key == ' '){
     vertices.clear();
     edges.clear();
@@ -219,12 +223,14 @@ void displayActions(){
   textSize(20);
   
   int x = 20;
-  int y = 700;
+  int y = 650;
   text("1: Add", x, y);
   text("2: Delete", x, y+20);
   text("3: Move", x, y+40);
   text("4: Surprise!", x, y+60);
   text("5: Label Switch. Status --> " + (labelsOn ? "On" : "Off"), x, y + 80);
+  text("6: Add 5 Random Vertices", x, y+100);
+  text("7: Reset All", x, y+120);
   fill(255);
 }
 
@@ -266,6 +272,18 @@ void displayAdjacencyMatrix() {
   }
 }
 
+void addRandomVertices(){
+  for(int i = 0; i < 5; i ++){
+    float x = random(50,width-50);
+    float y = random(50, height-50);
+    vertices.add(new Vertex((int)x, (int)y , NodeDiameter));
+  }
+}
+
+
+void resetGraph(){
+  vertices.clear();
+}
 
 // IDEAS
 
