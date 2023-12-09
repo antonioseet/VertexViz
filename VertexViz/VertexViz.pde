@@ -251,14 +251,14 @@ void displayAdjacencyMatrix() {
     int v1Index = vertices.indexOf(e.v1);
     int v2Index = vertices.indexOf(e.v2);
     
-    // Undirected graph without loops
+    // set both values to 1 because we are undirected
     if (v1Index != -1 && v2Index != -1) {
       matrix[v1Index][v2Index] = 1;
-      matrix[v2Index][v1Index] = 1; // Because the graph is undirected
+      matrix[v2Index][v1Index] = 1;
     }
   }
 
-  // Display the adjacency matrix
+  // Display the matrix
   textSize(15);
   fill(0);
   text("Adjacency Matrix:", 10, 15);
@@ -283,6 +283,7 @@ void addRandomVertices(){
 
 void resetGraph(){
   vertices.clear();
+  edges.clear();
 }
 
 // IDEAS
