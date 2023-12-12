@@ -27,7 +27,7 @@ void setup() {
 
 void draw() {
   background(100);
-  displayActions();
+  displayActions(); // keyboard controls
   
   // go through all the edges and if we find a loop, instead of drawring a line, draw a circle representina loop.
   for(Edge e : edges){
@@ -52,6 +52,7 @@ void draw() {
     
   }
   
+  // draw vertices and labels
   for(Vertex v : vertices){
     fill(255);
     circle(v.x, v.y, v.d);
@@ -62,9 +63,8 @@ void draw() {
     }
   }
   
-  // May be wise to change this to be above the for loops that draw.
   switch(Global.state){
-    case ADDING_EDGE:
+    case ADDING_EDGE: // gives us the moving line
       Vertex v;
       if(Global.vertex1 != null){
         v = Global.vertex1;
@@ -77,7 +77,7 @@ void draw() {
       break;
     case MOVE:
       break;
-    case MOVING:
+    case MOVING: // gives us the moving vertex
       if(Global.movingVertex != null)
         Global.movingVertex.updatePosition(mouseX,mouseY);
       break;
@@ -85,9 +85,10 @@ void draw() {
       break;
       
   }
-  displayState();
+  displayState(); // the enum above the controls
   displayAdjacencyMatrix();
   
+  // simple move for the 
   if(Global.state == State.SPREAD){
     for(Vertex v: vertices){
       v.move();
